@@ -1,67 +1,63 @@
-const words = ["rock", "paper", "scissors"];
-var winner = "";
+const words = ["Rock", "Paper", "Scissors"];
+const final = document.querySelector(".final")
+const results = document.querySelector(".results");
+const displayResult = document.createElement("p");
+displayResult.setAttribute("id", "result");
+
+const player = document.querySelector("#playerFinal");
+const computer = document.querySelector("#computerFinal");
+
+const start = document.querySelector(".start");
+const container = document.querySelector(".container");
+start.addEventListener("click", () => {
+    container.style.display = "block";
+    start.style.display = "none";
+});
+
+var playerFinal = 0;
+var computerFinal = 0;
+
+const buttons = document.querySelector("#buttons");
+const selection = buttons.querySelectorAll("button");
+selection.forEach((button) => {
+    button.addEventListener("click", () => {
+        if (playerFinal != 4 && computerFinal != 4){
+            playRound(button.id, computerPlay());
+        } else {
+            playRound(button.id, computerPlay());
+            buttons.style.display = "none";
+            if (playerFinal == 5){
+                final.textContent = "Congratulations, YOU WON! " + playerFinal + " VS " + computerFinal;
+            } else {
+                final.textContent = "You LOST! " + playerFinal + " VS " + computerFinal;
+            }
+        }
+    }); 
+});
 
 function playRound(playerSelection, computerSelection){
-    winner = "tie";
-    result = "It's a tie!"
     if (
-        playerSelection == "rock" && computerSelection == "paper" ||
-        playerSelection == "paper" && computerSelection == "scissors" ||
-        playerSelection == "scissors" && computerSelection == "rock"){
-            result = "You Lose! " + capitalize(computerSelection) + " beats " + capitalize(playerSelection); 
-            winner = "computer";
+        playerSelection == "Rock" && computerSelection == "Paper" ||
+        playerSelection == "Paper" && computerSelection == "Scissors" ||
+        playerSelection == "Scissors" && computerSelection == "Rock"){
+            result = "You Lose! " + computerSelection + " beats " + playerSelection; 
+            computerFinal++;
+            computer.textContent = computerFinal;
     } else if (
-        playerSelection == "rock" && computerSelection == "scissors" ||
-        playerSelection == "paper" && computerSelection == "rock" ||
-        playerSelection == "scissors" && computerSelection == "paper"){
-            result = "You Win! " + capitalize(playerSelection) + " beats " + capitalize(computerSelection);
-            winner = "player";
-    } 
-    return winner,result;
-}
-
-
-function game(){
-    let playerScore = 0;
-    let computerScore = 0;
-    
-    while (playerScore < 5 && computerScore < 5){
-        playerSelection = playerPlay();
-        computerSelection = computerPlay();
-        
-        playRound(playerSelection, computerSelection);
-        if (winner == "computer") {  
-            computerScore++;
-        } else if (winner == "player") {            
-            playerScore++;
-        }
-        console.log(result);
-    }
-    if (playerScore > computerScore) {
-        console.log("CONGRATULATIONS! You won " + playerScore + " to " + computerScore + ".");
+        playerSelection == "Rock" && computerSelection == "Scissors" ||
+        playerSelection == "Paper" && computerSelection == "Rock" ||
+        playerSelection == "Scissors" && computerSelection == "Paper"){
+            result = "You Win! " + playerSelection + " beats " + computerSelection;
+            playerFinal++;
+            player.textContent = playerFinal;
     } else {
-        console.log("You lost " + computerScore + " to " + playerScore + ".");
+        result = "It's a tie!";
     }
-    
+    displayResult.textContent = result; 
+    container.insertBefore(displayResult, final);
+
 }
-game();
 
 function computerPlay(){
     return words[Math.floor(Math.random() * words.length)]; 
-}
-
-function playerPlay(){
-    word = prompt("Enter your word:");
-    word = word.toLowerCase();
-    for (let i = 0; i < words.length; i++){
-        if (word == words[i]){
-            return word;
-        }
-    }
-    alert("Entered word is not valid. Try again.")
-    return playerPlay();
-}
-
-function capitalize(string){
-    return string[0].toUpperCase() + string.slice(1).toLowerCase();
 }
