@@ -1,6 +1,5 @@
 const words = ["Rock", "Paper", "Scissors"];
 const final = document.querySelector(".final")
-const results = document.querySelector(".results");
 const displayResult = document.createElement("p");
 displayResult.setAttribute("id", "result");
 
@@ -21,17 +20,18 @@ const buttons = document.querySelector("#buttons");
 const selection = buttons.querySelectorAll("button");
 selection.forEach((button) => {
     button.addEventListener("click", () => {
-        if (playerFinal != 4 && computerFinal != 4){
+        if (playerFinal < 5 && computerFinal < 5){
             playRound(button.id, computerPlay());
-        } else {
-            playRound(button.id, computerPlay());
-            buttons.style.display = "none";
             if (playerFinal == 5){
+                buttons.style.display = "none";
                 final.textContent = "Congratulations, YOU WON! " + playerFinal + " VS " + computerFinal;
-            } else {
+            } else if (computerFinal == 5) {
+                buttons.style.display = "none";
                 final.textContent = "You LOST! " + playerFinal + " VS " + computerFinal;
             }
         }
+        displayResult.textContent = result; 
+        container.insertBefore(displayResult, final);
     }); 
 });
 
@@ -53,9 +53,6 @@ function playRound(playerSelection, computerSelection){
     } else {
         result = "It's a tie!";
     }
-    displayResult.textContent = result; 
-    container.insertBefore(displayResult, final);
-
 }
 
 function computerPlay(){
