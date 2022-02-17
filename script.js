@@ -17,7 +17,7 @@ var playerFinal = 0;
 var computerFinal = 0;
 
 const buttons = document.querySelector("#buttons");
-const selection = buttons.querySelectorAll("button");
+const selection = buttons.querySelectorAll("div");
 selection.forEach((button) => {
     button.addEventListener("click", () => {
         if (playerFinal < 5 && computerFinal < 5){
